@@ -1,0 +1,63 @@
+
+
+# OCP4_BASEURL=https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest
+curl -s ${OCP4_BASEURL}/openshift-install-linux-4.1.3.tar.gz | tar -xzf – -C /usr/local/bin/openshift-install
+
+curl -s ${OCP4_BASEURL}/openshift-client-linux-4.1.3.tar.gz | tar -xzf – -C /usr/local/bin/oc
+
+mkdir /root/ocp67
+
+
+
+install-config.yaml
+
+
+##################
+apiVersion: v1
+baseDomain: example.com
+compute:
+– hyperthreading: Enabled
+  name: worker
+  replicas: 0
+controlPlane:
+  hyperthreading: Enabled
+  name: master
+  replicas: 3
+metadata:
+  name: ocp67
+networking:
+  clusterNetworks:
+  – cidr: 10.128.0.0/14
+    hostPrefix: 23
+  networkType: OpenShiftSDN
+  serviceNetwork:
+  – 172.30.0.0/16
+platform:
+  none: {}
+pullSecret: ‘<the_content_of_/root/ocp4_pull_secret>’
+sshKey: ‘<the_content_of_/root/.ssh/id_rsa.pub>’
+
+#########
+apiVersion: v1
+baseDomain: example.com 
+compute:
+- hyperthreading: Enabled   
+  name: worker
+  replicas: 0 
+controlPlane:
+  hyperthreading: Enabled   
+  name: master 
+  replicas: 3 
+metadata:
+  name: test 
+networking:
+  clusterNetworks:
+  - cidr: 10.128.0.0/14 
+    hostPrefix: 23 
+  networkType: OpenShiftSDN
+  serviceNetwork: 
+  - 172.30.0.0/16
+platform:
+  none: {} 
+pullSecret: '{"auths": ...}' 
+sshKey: 'ssh-ed25519 AAAA...' 
